@@ -11,7 +11,7 @@
           <table class="table table-bordered">
             <thead class="table-light">
               <tr>
-                <th *ngFor="let col of columns">{{col}}</th>
+                <th *ngFor="let col of columns">{{ col }}</th>
               </tr>
             </thead>
             <tbody
@@ -52,6 +52,14 @@
                         {{ option }}
                       </mat-option>
                     </mat-autocomplete>
+                    <mat-error
+                      *ngIf="
+                        order.get('item')?.touched &&
+                        order.get('item')?.hasError('required')
+                      "
+                    >
+                      Please select item
+                    </mat-error>
                   </mat-form-field>
                 </td>
                 <td>
@@ -63,10 +71,28 @@
                       min="1"
                       formControlName="quantity"
                     />
+                    <mat-error
+                      *ngIf="
+                        order.get('quantity')?.touched &&
+                        order.get('quantity')?.hasError('required')
+                      "
+                    >
+                      Quantity is required
+                    </mat-error>
+                    <mat-error
+                      *ngIf="
+                        order.get('quantity')?.touched &&
+                        order.get('quantity')?.hasError('min')
+                      "
+                    >
+                      Quantity should be greater than 1
+                    </mat-error>
                   </mat-form-field>
                 </td>
-                <td >
-                  <button class="btn btn-danger" (click)="deleteItem(i)">Delete</button>
+                <td>
+                  <button class="btn btn-danger" (click)="deleteItem(i)">
+                    Delete
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -87,11 +113,7 @@
             >
               Submit Order
             </button>
-            <button
-              type="button"
-              class="btn btn-primary"
-              (click)="showOrder()"
-            >
+            <button type="button" class="btn btn-primary" (click)="showOrder()">
               Show Order
             </button>
           </div>

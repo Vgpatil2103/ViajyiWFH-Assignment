@@ -91,7 +91,7 @@ export class OrderFormComponent {
   addItem() {
     const orderGroup = this.fb.group({
       item: ['', Validators.required],
-      quantity: [1, [Validators.required, Validators.min(1)]],
+      quantity: [0, [Validators.required, Validators.min(1)]],
       username: [this.username],
     });
     this.orders.push(orderGroup);
