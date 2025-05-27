@@ -1,0 +1,99 @@
+<div class="component-wrapper">
+  <div class="body-wrapper py-4">
+    <div class="container">
+      <div class="d-flex justify-content-between mb-3">
+        <h5 class="fw-bold">Item List</h5>
+        <button class="btn btn-primary" (click)="addItem()">Add Item</button>
+      </div>
+
+      <form [formGroup]="orderForm">
+        <div formArrayName="orders">
+          <table class="table table-bordered">
+            <thead class="table-light">
+              <tr>
+                <th *ngFor="let col of columns">{{col}}</th>
+              </tr>
+            </thead>
+            <tbody
+              cdkDropList
+              [cdkDropListData]="pagedOrders"
+              (cdkDropListDropped)="drop($event)"
+            >
+              <tr
+                cdkDragHandle
+                *ngFor="let order of pagedOrders; let i = index"
+                [formGroupName]="pageIndex * pageSize + i"
+                cdkDrag
+                class="bg-white align-middle"
+              >
+                <td class="pt-3">
+                  <span class="cursor-move me-2">☰</span>
+                  {{ pageIndex * pageSize + i + 1 }}
+                </td>
+                <td>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <input
+                      type="text"
+                      matInput
+                      placeholder="Search Item"
+                      formControlName="item"
+                      [matAutocomplete]="auto"
+                      (input)="filterProductList(pageIndex * pageSize + i)"
+                    />
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option
+                        *ngFor="
+                          let option of filteredOptions[
+                            pageIndex * pageSize + i
+                          ]
+                        "
+                        [value]="option"
+                      >
+                        {{ option }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field appearance="outline" class="w-100">
+                    <input
+                      type="number"
+                      matInput
+                      placeholder="Qty"
+                      min="1"
+                      formControlName="quantity"
+                    />
+                  </mat-form-field>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <mat-paginator
+            [length]="orders.length"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[5]"
+            (page)="onPageChange($event)"
+          ></mat-paginator>
+
+          <div class="d-flex gap-2 justify-content-end mt-3">
+            <button
+              type="button"
+              class="btn btn-success"
+              (click)="submitOrder()"
+            >
+              Submit Order
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="showOrder()"
+            >
+              Show Order
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
