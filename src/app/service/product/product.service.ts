@@ -48,7 +48,7 @@ export class ProductService {
 
  createOrder(order: Product[]) {
   const previousOrders = localStorage.getItem('orders');
-  let allOrders = previousOrders ? JSON.parse(previousOrders);
+  let allOrders = previousOrders ? JSON.parse(previousOrders) : [];
   allOrders = [...allOrders, ...order];
   localStorage.setItem('orders', JSON.stringify(allOrders));
 }
