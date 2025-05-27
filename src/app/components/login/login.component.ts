@@ -30,11 +30,11 @@ export class LoginComponent {
 
   login() {
     if (!this.userName) {
-      this.snackbarService.showError('Enter Username');
+      this.snackbarService.showMessage('Enter Username');
     } else {
       this.authService.login(this.userName);
       this.router.navigate(["/create-order"])
-      this.snackbarService.showSuccess('Login Successful');
+      this.snackbarService.showMessage('Login Successful');
     }
   }
 }

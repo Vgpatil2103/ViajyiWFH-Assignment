@@ -46,7 +46,7 @@ export class OrderFormComponent {
   productList: Product[] = [];
   filteredOptions: string[][] = [];
   orderForm!: FormGroup;
-  columns: Array<string> = ['Sr No', 'Item', 'Quantity'];
+  columns: Array<string> = ['Sr No', 'Item', 'Quantity','Action'];
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   pageSize = 5;
@@ -82,6 +82,10 @@ export class OrderFormComponent {
     const start = this.pageIndex * this.pageSize;
     const end = start + this.pageSize;
     return this.orders.controls.slice(start, end);
+  }
+
+  deleteItem(index:number){
+    this.orders.removeAt(index)
   }
 
   addItem() {
@@ -124,9 +128,10 @@ export class OrderFormComponent {
     if (this.orderForm.valid) {
       console.log('Submitted Orders:', this.orderForm.value.orders);
       this.productService.createOrder(this.orderForm.value.orders);
+      this.snackBarService.showMessage('Order Placed Successfully....!!!!!');
       this.router.navigate(['/order-listing']);
     } else {
-      this.snackBarService.showError('Please fill all the Mandatory Fields');
+      this.snackBarService.showMessage('Please fill all the Mandatory Fields');
       this.orderForm.markAllAsTouched();
     }
   }
