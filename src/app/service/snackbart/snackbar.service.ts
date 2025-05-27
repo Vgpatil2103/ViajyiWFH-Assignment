@@ -12,7 +12,7 @@ export class SnackbarService {
     action: string = 'Close',
     duration: number = 3000
   ) {
-    this.snackBar.open(`✅ ${message}`, action, {
+    this.snackBar.open(`${message}`, action, {
       duration,
       horizontalPosition: 'right',
       verticalPosition: 'top',
